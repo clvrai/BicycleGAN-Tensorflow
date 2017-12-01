@@ -19,19 +19,19 @@ parser.add_argument('--train', default=True, type=str2bool,
                     help="Training mode")
 parser.add_argument('--task', type=str, default='edges2shoes',
                     help='Task name')
-parser.add_argument('--gamma', type=float, default=1,
-                    help='Loss coefficient')
-parser.add_argument('--lambda1', type=float, default=1,
-                    help='Loss coefficient')
-parser.add_argument('--lambda2', type=float, default=1,
-                    help='Loss coefficient')
+parser.add_argument('--coeff_kl', type=float, default=0.01,
+                    help='Loss coefficient for KL divergence')
+parser.add_argument('--coeff_reconstruct', type=float, default=10,
+                    help='Loss coefficient for reconstruct')
+parser.add_argument('--coeff_latent', type=float, default=0.5,
+                    help='Loss coefficient for latent cycle')
 parser.add_argument('--instance_normalization', default=False, type=bool,
                     help="Use instance norm instead of batch norm")
 parser.add_argument('--log_step', default=100, type=int,
                     help="Tensorboard log frequency")
 parser.add_argument('--batch_size', default=1, type=int,
                     help="Batch size")
-parser.add_argument('--image_size', default=128, type=int,
+parser.add_argument('--image_size', default=256, type=int,
                     help="Image size")
 parser.add_argument('--latent_dim', default=8, type=int,
                     help="Dimensionality of latent vector")

@@ -14,7 +14,6 @@ class Generator(object):
 
     def __call__(self, input, z):
         with tf.variable_scope(self.name, reuse=self._reuse):
-            self._dropout = tf.constant(1.0)
             batch_size = int(input.get_shape()[0])
             latent_dim = int(z.get_shape()[-1])
             num_filters = [64, 128, 256, 512, 512, 512, 512]
@@ -23,13 +22,13 @@ class Generator(object):
 
             layers = []
             G = input
+            z = tf.reshape(z, [batch_size, 1, 1, latent_dim])
+            z = tf.tile(z, [1, self._image_size, self._image_size, 1])
+            G = tf.concat([G, z], axis=3)
             for i, n in enumerate(num_filters):
                 G = ops.conv_block(G, n, 'C{}_{}'.format(n, i), 4, 2, self._is_train,
                                 self._reuse, norm=self._norm if i else None, activation='leaky')
                 layers.append(G)
-
-            z = tf.reshape(z, [batch_size, 1, 1, latent_dim])
-            G = tf.concat([G, z], axis=3)
 
             layers.pop()
             num_filters.pop()
@@ -37,10 +36,10 @@ class Generator(object):
 
             for i, n in enumerate(num_filters):
                 G = ops.deconv_block(G, n, 'CD{}_{}'.format(n, i), 4, 2, self._is_train,
-                                self._reuse, norm=self._norm, activation='relu', dropout=self._dropout)
+                                self._reuse, norm=self._norm, activation='relu')
                 G = tf.concat([G, layers.pop()], axis=3)
             G = ops.deconv_block(G, 3, 'last_layer', 4, 2, self._is_train,
-                               self._reuse, norm=None, activation='tanh', dropout=self._dropout)
+                               self._reuse, norm=None, activation='tanh')
 
             self._reuse = True
             self.var_list = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, self.name)

@@ -26,9 +26,13 @@ class Encoder(object):
                 E = ops.conv_block(E, n, 'C{}_{}'.format(n, i), 4, 2, self._is_train,
                                 self._reuse, norm=self._norm if i else None, activation='leaky')
             E = tf.reshape(E, [-1, 512])
-            E = ops.mlp(E, self._latent_dim, 'FC8', self._is_train, self._reuse,
+            mu = ops.mlp(E, self._latent_dim, 'FC8_mu', self._is_train, self._reuse,
                         norm=None, activation=None)
+            log_sigma = ops.mlp(E, self._latent_dim, 'FC8_sigma', self._is_train, self._reuse,
+                        norm=None, activation=None)
+
+            z = mu + tf.random_normal(shape=tf.shape(self._latent_dim)) * tf.exp(log_sigma)
 
             self._reuse = True
             self.var_list = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, self.name)
-            return E
+            return z, mu, log_sigma

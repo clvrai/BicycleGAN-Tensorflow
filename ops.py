@@ -106,10 +106,9 @@ def residual(input, num_filters, name, is_train, reuse, norm, pad='REFLECT'):
         return tf.nn.relu(input + out)
 
 def deconv_block(input, num_filters, name, k_size, stride, is_train, reuse,
-                 norm, activation, dropout):
+                 norm, activation):
     with tf.variable_scope(name, reuse=reuse):
         out = conv2d_transpose(input, num_filters, k_size, stride, reuse)
         out = _norm(out, is_train, reuse, norm)
-        out = tf.nn.dropout(out, dropout)
         out = _activation(out, activation)
         return out
