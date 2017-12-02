@@ -12,7 +12,9 @@ This paper presents a framework addressing the **image-to-image translation** ta
 
 The proposed method encourages diverse results by generating output images with noise and then reconstructing noise from the output images. The framework consists of two cycles, noise *z* -> output *B'* -> noise *z'* and *B* -> *z'* -> *B'*.
 
-![paper-figure](assets/paper-figure.png)
+<p align="center">
+    <img src="assets/paper-figure.png"/>
+</p>
 
 The first step is conditional Variational Auto Encoder GAN (cVAE-GAN) which is pix2pix network with noise. In cVAE-GAN, a generator *G* takes an input image *A* (sketch) and a noise *z* and outputs its counterpart in domain *B* (image) with variations. However, it was reported that the generator *G* ends up with ignoring the added noise.
 
@@ -52,7 +54,12 @@ $ tensorboard --logdir=./logs
 
 ### edges2shoes
 
-![edges2shoes](assets/edges2shoes1.jpg)
+|          Linearly sample noise           |          Randomly sample noise           |
+| :--------------------------------------: | :--------------------------------------: |
+| ![edges2shoes1_linear](assets/edges2shoes1_linear.jpg) | ![edges2shoes2_random](assets/edges2shoes1_random.jpg) |
+| ![edges2shoes2_linear](assets/edges2shoes2_linear.jpg) | ![edges2shoes2_random](assets/edges2shoes2_random.jpg) |
+
+
 
 ![training-edges2shoes.jpg](assets/training-edges2shoes.png)
 
