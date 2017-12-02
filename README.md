@@ -12,11 +12,11 @@ This paper presents a framework addressing the **image-to-image translation** ta
 
 The proposed method encourages diverse results by generating output images with noise and then reconstructing noise from the output images. The framework consists of two cycles, noise *z* -> output *B'* -> noise *z'* and *B* -> *z'* -> *B'*.
 
+![paper-figure](assets/paper-figure.png)
+
 The first step is conditional Variational Auto Encoder GAN (cVAE-GAN) which is pix2pix network with noise. In cVAE-GAN, a generator *G* takes an input image *A* (sketch) and a noise *z* and outputs its counterpart in domain *B* (image) with variations. However, it was reported that the generator *G* ends up with ignoring the added noise.
 
 The second part, conditional Latent Regressor GAN (cLR-GAN), enforces the generator to follow the noise *z*. An encoder *E* maps visual features (color and texture) of a target image *B* to the latent vector *z'* which is close to an original noise *z*. To minimize |*z*-*z'*|, images computed with different noises should be different.  Therefore, the cLR-GAN can alleviate the issue of mode collapse. Moreover, a KL-divergence loss *KL(p(z);N(0;I))* encourages the latent vectors to follow gaussian distribution, so a gaussian noise can be used in testing time.
-
-![paper-figure](assets/paper-figure.png)
 
 ## Dependencies
 
@@ -52,15 +52,13 @@ $ tensorboard --logdir=./logs
 
 ### edges2shoes
 
-![apple2orange](assets/apple2orange.png)
+![edges2shoes](assets/edges2shoes1.jpg)
 
-![training-apple2orange.png](assets/training-apple2orange.png)
+![training-edges2shoes.jpg](assets/training-edges2shoes.png)
 
 ### day2night
 
-![vangogh2photo](assets/vangogh2photo.png)
-
-![training-vangogh2photo](assets/training-vangogh2photo.png)
+In-progress
 
 ## References
 
