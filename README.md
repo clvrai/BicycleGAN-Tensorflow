@@ -8,7 +8,7 @@ This project is implemented by [Youngwoon Lee](https://github.com/youngwoon) and
 
 This repo is a [Tensorflow](https://www.tensorflow.org/) implementation of BicycleGAN on Pix2Pix datasets: [Toward Multimodal Image-to-Image Translation](http://papers.nips.cc/paper/6650-toward-multimodal-image-to-image-translation).
 
-This paper presents a framework addressing the **image-to-image translation** task, where we are interested in converting an image from one domain (e.g., sketch) to another domain (e.g., image). While the previous method (pix2pix) cannot generate diverse output, this paper proposes a method that one image (e.g., a sketch of shoes) can be transformed into a set of images (e.g., shoes with different colors/textures).
+This paper presents a framework addressing the **image-to-image translation** task, where we are interested in converting an image from one domain (e.g., sketch) to another domain (e.g., image). While the previous method (pix2pix) cannot generate diverse outputs, this paper proposes a method that one image (e.g., a sketch of shoes) can be transformed into a set of images (e.g., shoes with different colors/textures).
 
 The proposed method encourages diverse results by generating output images with noise and then reconstructing noise from the output images. The framework consists of two cycles, *B* -> *z'* -> *B'* and noise *z* -> output *B'* -> noise *z'*.
 
@@ -22,13 +22,13 @@ The first step is the conditional Variational Auto Encoder GAN (cVAE-GAN) whose 
     <img src="assets/cVAE-GAN-loss.png" width=500>
 </p>
 
-The second part, conditional Latent Regressor GAN (cLR-GAN), enforces the generator to follow the noise *z*. An encoder *E* maps visual features (color and texture) of a generative image *B'* to the latent vector *z'* which is close to an original noise *z*. To minimize |*z*-*z'*|, images computed with different noises should be different.  Therefore, the cLR-GAN can alleviate the issue of mode collapse. Moreover, a KL-divergence loss *KL(p(z);N(0;I))* encourages the latent vectors to follow gaussian distribution, so a gaussian noise can be used in testing time.
+The second part, the conditional Latent Regressor GAN (cLR-GAN), enforces the generator to follow the noise *z*. An encoder *E* maps visual features (color and texture) of a generated image *B'* to the latent vector *z'* which is close to the original noise *z*. To minimize |*z*-*z'*|, images computed with different noises should be different. Therefore, the cLR-GAN can alleviate the issue of mode collapse. Moreover, a KL-divergence loss *KL(p(z);N(0;I))* encourages the latent vectors to follow gaussian distribution, so a gaussian noise can be used as a latent vector in testing time.
 
 <p align="center">
     <img src="assets/cLR-GAN-loss.png" width=450>
 </p>
 
-Therefore, the total loss term for Bi-Cycle-GAN is:
+Finally, the total loss term for Bi-Cycle-GAN is:
 <p align="center">
     <img src="assets/Bi-Cycle-GAN-loss.png" width=500>
 </p>
@@ -67,7 +67,7 @@ $ tensorboard --logdir=./logs
 
 ### edges2shoes
 
-|          Linearly sample noise           |          Randomly sample noise           |
+|          Linearly sampled noise           |          Randomly sampled noise           |
 | :--------------------------------------: | :--------------------------------------: |
 | ![edges2shoes1_linear](assets/edges2shoes1_linear.jpg) | ![edges2shoes2_random](assets/edges2shoes1_random.jpg) |
 | ![edges2shoes2_linear](assets/edges2shoes2_linear.jpg) | ![edges2shoes2_random](assets/edges2shoes2_random.jpg) |
