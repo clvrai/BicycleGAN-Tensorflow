@@ -3,8 +3,8 @@ import os
 
 
 # start logging
-logging.info("Start CycleGAN")
-logger = logging.getLogger('cycle-gan')
+logging.info("Start BicycleGAN")
+logger = logging.getLogger('Bicycle-gan')
 logger.setLevel(logging.INFO)
 
 def makedirs(path):
