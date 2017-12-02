@@ -18,7 +18,20 @@ The proposed method encourages diverse results by generating output images with 
 
 The first step is the conditional Variational Auto Encoder GAN (cVAE-GAN) whose architecture is similar to pix2pix network with noise. In cVAE-GAN, a generator *G* takes an input image *A* (sketch) and a noise *z* and outputs its counterpart in domain *B* (image) with variations. However, it was reported that the generator *G* ends up with ignoring the added noise.
 
+<p align="center">
+    <img src="assets/cVAE-GAN-loss.png" width=500>
+</p>
+
 The second part, conditional Latent Regressor GAN (cLR-GAN), enforces the generator to follow the noise *z*. An encoder *E* maps visual features (color and texture) of a generative image *B'* to the latent vector *z'* which is close to an original noise *z*. To minimize |*z*-*z'*|, images computed with different noises should be different.  Therefore, the cLR-GAN can alleviate the issue of mode collapse. Moreover, a KL-divergence loss *KL(p(z);N(0;I))* encourages the latent vectors to follow gaussian distribution, so a gaussian noise can be used in testing time.
+
+<p align="center">
+    <img src="assets/cLR-GAN-loss.png" width=450>
+</p>
+
+Therefore, the total loss term for Bi-Cycle-GAN is:
+<p align="center">
+    <img src="assets/Bi-Cycle-GAN-loss.png" width=500>
+</p>
 
 ## Dependencies
 
