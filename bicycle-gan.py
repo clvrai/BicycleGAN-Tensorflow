@@ -80,6 +80,8 @@ def run(args):
     logger.info('Events directory: %s', logdir)
     summary_writer = tf.summary.FileWriter(logdir)
 
+    makedirs('./results')
+
     def init_fn(sess):
         logger.info('Initializing all parameters.')
         sess.run(init_all_op)
