@@ -20,8 +20,7 @@ def _norm(input, is_train, reuse=True, norm=None):
         with tf.variable_scope('batch_norm', reuse=reuse):
             out = tf.contrib.layers.batch_norm(input,
                                                decay=0.99, center=True,
-                                               scale=True, is_training=is_train,
-                                               updates_collections=None)
+                                               scale=True, is_training=True)
     else:
         out = input
 
