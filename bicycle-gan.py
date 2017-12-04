@@ -35,6 +35,8 @@ parser.add_argument('--image_size', default=256, type=int,
                     help="Image size")
 parser.add_argument('--latent_dim', default=8, type=int,
                     help="Dimensionality of latent vector")
+parser.add_argument('--use_resnet', default=True, type=bool,
+                    help="Use the ResNet model for the encoder")
 parser.add_argument('--load_model', default='',
                     help='Model path to load (e.g., train_2017-07-07_01-23-45)')
 parser.add_argument('--gpu', default="1", type=str,

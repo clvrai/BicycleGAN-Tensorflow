@@ -22,6 +22,7 @@ class BicycleGAN(object):
         self._coeff_latent = args.coeff_latent
         self._coeff_kl = args.coeff_kl
         self._norm = 'instance' if args.instance_normalization else 'batch'
+        self._use_resnet = args.use_resnet
 
         self._augment_size = self._image_size + (30 if self._image_size == 256 else 15)
         self._image_shape = [self._image_size, self._image_size, 3]
@@ -64,7 +65,8 @@ class BicycleGAN(object):
         # Encoder
         E = Encoder('E', is_train=self.is_train,
                     norm=self._norm, activation='relu',
-                    image_size=self._image_size, latent_dim=self._latent_dim)
+                    image_size=self._image_size, latent_dim=self._latent_dim,
+                    use_resnet=self._use_resnet)
 
         # conditional VAE-GAN: B -> z -> B'
         z_encoded, z_encoded_mu, z_encoded_log_sigma = E(image_b)

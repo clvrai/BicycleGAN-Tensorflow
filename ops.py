@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy as np
 
 
 def _norm(input, is_train, reuse=True, norm=None):
@@ -38,6 +39,9 @@ def _activation(input, activation=None):
         return tf.sigmoid(input)
     else:
         return input
+
+def flatten(input):
+    return tf.reshape(input, [-1, np.prod(input.get_shape().as_list()[1:])])
 
 def conv2d(input, num_filters, filter_size, stride, reuse=False,
            pad='SAME', dtype=tf.float32, bias=False):
@@ -91,15 +95,16 @@ def conv_block(input, num_filters, name, k_size, stride, is_train, reuse, norm,
         out = _activation(out, activation)
         return out
 
-def residual(input, num_filters, name, is_train, reuse, norm, pad='REFLECT'):
+def residual(input, num_filters, name, is_train, reuse, norm, pad='REFLECT',
+             bias=False):
     with tf.variable_scope(name, reuse=reuse):
         with tf.variable_scope('res1', reuse=reuse):
-            out = conv2d(input, num_filters, 3, 1, reuse, pad)
+            out = conv2d(input, num_filters, 3, 1, reuse, pad, bias=bias)
             out = _norm(out, is_train, reuse, norm)
             out = tf.nn.relu(out)
 
         with tf.variable_scope('res2', reuse=reuse):
-            out = conv2d(out, num_filters, 3, 1, reuse, pad)
+            out = conv2d(out, num_filters, 3, 1, reuse, pad, bias=bias)
             out = _norm(out, is_train, reuse, norm)
 
         return tf.nn.relu(input + out)
