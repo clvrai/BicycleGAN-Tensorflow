@@ -55,7 +55,7 @@ class Encoder(object):
                                self._reuse, norm=None, activation='leaky', bias=True)
             for i, n in enumerate(num_filters):
                 E = ops.residual(E, n, 'res{}_{}'.format(n, i + 1), self._is_train,
-                                 self._reuse, norm=self._norm, activation='leaky',
+                                 self._reuse, norm=self._norm,
                                  bias=True)
                 E = tf.nn.avg_pool(E, [1, 2, 2, 1], [1, 2, 2, 1], 'SAME')
             E = tf.nn.avg_pool(E, [1, 8, 8, 1], [1, 8, 8, 1], 'SAME')
