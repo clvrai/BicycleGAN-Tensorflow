@@ -107,7 +107,10 @@ def residual(input, num_filters, name, is_train, reuse, norm, pad='REFLECT',
             out = conv2d(out, num_filters, 3, 1, reuse, pad, bias=bias)
             out = _norm(out, is_train, reuse, norm)
 
-        return tf.nn.relu(input + out)
+        with tf.variable_scope('shortcut', reuse=reuse):
+            shortcut = conv2d(input, num_filters, 1, 1, reuse, pad, bias=bias)
+
+        return tf.nn.relu(shortcut + out)
 
 def deconv_block(input, num_filters, name, k_size, stride, is_train, reuse,
                  norm, activation):
