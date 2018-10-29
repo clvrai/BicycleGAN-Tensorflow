@@ -18,6 +18,7 @@ class BicycleGAN(object):
         self._batch_size = args.batch_size
         self._image_size = args.image_size
         self._latent_dim = args.latent_dim
+        self._coeff_gan = args.coeff_gan
         self._coeff_vae = args.coeff_vae
         self._coeff_reconstruct = args.coeff_reconstruct
         self._coeff_latent = args.coeff_latent
@@ -97,7 +98,7 @@ class BicycleGAN(object):
                                        tf.exp(2 * z_encoded_log_sigma))
 
         loss = self._coeff_vae * loss_vae_gan - self._coeff_reconstruct * loss_image_cycle + \
-            loss_gan - self._coeff_latent * loss_latent_cycle - \
+            self._coeff_gan * loss_gan - self._coeff_latent * loss_latent_cycle - \
             self._coeff_kl * loss_kl
 
         # Optimizer
