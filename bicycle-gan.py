@@ -19,6 +19,8 @@ parser.add_argument('--train', default=True, type=str2bool,
                     help="Training mode")
 parser.add_argument('--task', type=str, default='edges2shoes',
                     help='Task name')
+parser.add_argument('--coeff_vae', type=float, default=1.0,
+                    help='Loss coefficient for VAE')
 parser.add_argument('--coeff_kl', type=float, default=0.01,
                     help='Loss coefficient for KL divergence')
 parser.add_argument('--coeff_reconstruct', type=float, default=10,
